@@ -1,5 +1,6 @@
 package br.com.siaraapps.mtgdb.models;
 
+import br.com.siaraapps.mtgdb.dtos.CardToInsertDTO;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -41,13 +42,13 @@ public class Card {
     private Integer quantity;
 
     @Column(name = "expected_value", columnDefinition = "decimal(12,2)")
-    private BigDecimal exectedValue;
+    private BigDecimal expectedValue;
 
     //Construtor vazio (dependencia do JPA)
     public Card() {
     }
 
-    public Card(String name, String colors, Integer manaCost, String type, Character rarity, Integer power, Integer toughness, String printing, Boolean foil, Integer quantity, BigDecimal exectedValue) {
+    public Card(String name, String colors, Integer manaCost, String type, Character rarity, Integer power, Integer toughness, String printing, Boolean foil, Integer quantity, BigDecimal expectedValue) {
         this.name = name;
         this.colors = colors;
         this.manaCost = manaCost;
@@ -58,12 +59,17 @@ public class Card {
         this.printing = printing;
         this.foil = foil;
         this.quantity = quantity;
-        this.exectedValue = exectedValue;
+        this.expectedValue = expectedValue;
     }
 
     //Constrututor com apenas os campos obrigatorios
     public Card(String name) {
         this.name = name;
+    }
+
+    //Construtor a partir de DTO de cadastro
+    public Card(CardToInsertDTO card) {
+        this(card.name(), card.colors(), card.manaCost(), card.type(), card.rarity(), card.power(), card.toughness(), card.printing(), card.foil(), card.quantity(), card.expectedValue());
     }
 
     public Integer getId() {
@@ -150,12 +156,12 @@ public class Card {
         this.quantity = quantity;
     }
 
-    public BigDecimal getExectedValue() {
-        return exectedValue;
+    public BigDecimal getExpectedValue() {
+        return expectedValue;
     }
 
-    public void setExectedValue(BigDecimal exéctedValue) {
-        this.exectedValue = exéctedValue;
+    public void setExpectedValue(BigDecimal expectedValue) {
+        this.expectedValue = expectedValue;
     }
 
     @Override
@@ -169,10 +175,10 @@ public class Card {
                 ", rarity=" + rarity +
                 ", power=" + power +
                 ", toughness=" + toughness +
-                ", set=" + printing +
+                ", printing=" + printing +
                 ", foil=" + foil +
                 ", quantity=" + quantity +
-                ", exectedValue=" + exectedValue +
+                ", expectedValue=" + expectedValue +
                 '}';
     }
 }
