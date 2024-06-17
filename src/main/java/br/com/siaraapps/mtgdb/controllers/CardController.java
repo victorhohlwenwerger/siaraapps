@@ -6,10 +6,9 @@ import br.com.siaraapps.mtgdb.dtos.CardToInsertDTO;
 import br.com.siaraapps.mtgdb.services.CardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("card")
@@ -35,5 +34,20 @@ public class CardController {
         return ResponseEntity.ok(outputCard);
 
     }
+
+    //GET de todos os cards em JSON
+    @GetMapping("/all")
+    public ResponseEntity<List<CardToReturnDTO>> listAll() {
+
+        //Recuperando lista de cards da base de dados
+        List<Card> cardList = cardService.findAll();
+
+        //Convertendo DE List<Card> PARA List<CardToReturnDTO>
+        List<CardToReturnDTO> dtoList = cardList.stream().map(CardToReturnDTO::new).toList();
+
+        return ResponseEntity.ok(dtoList);
+
+    }
+
 
 }
