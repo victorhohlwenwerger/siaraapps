@@ -18,10 +18,7 @@ public class CardService {
     public Card insert(Card card) {
 
         Card cardSaved = cardRepository.save(card);
-        System.out.println("========== Registro: ==========");
-        System.out.println(cardSaved);
-        System.out.println("Salvo com sucesso");
-        System.out.println("===============================");
+        cardPrinting(cardSaved, "Salvo com sucesso");
 
         return cardSaved;
 
@@ -34,7 +31,7 @@ public class CardService {
         List<Card> cardList = (List<Card>) cardRepository.findAll();
 
         //Imprime lista de cards em console
-        cardList.forEach(System.out::println);
+        listPrinting(cardList);
 
         return cardList;
 
@@ -48,14 +45,44 @@ public class CardService {
 
         //Retorna card se ID encontrado, senão, lança exceção
         if (card.isPresent()) {
-            System.out.println("========== Registro: ==========");
-            System.out.println(card);
-            System.out.println("Recuperado com sucesso");
-            System.out.println("===============================");
+            cardPrinting(card.get(), "Recuperado com sucesso");
             return card.get();
         } else {
             throw new EntityNotFoundException("Card com id = " + id + " não encontrado");
         }
 
     }
+
+    public List<Card> findByName(String name) {
+
+        //Busca cards por nome
+        List<Card> cards = cardRepository.findByNameLike("%" + name + "%");
+
+        //Retorna lista de cards encontrados, senão, lança exceção
+        if (!cards.isEmpty()) {
+            listPrinting(cards);
+            return cards;
+        } else {
+            throw new EntityNotFoundException("Nenhum card encontrado contendo nome = " + name);
+        }
+
+    }
+
+    private void cardPrinting(Card card, String message) {
+
+        System.out.println("========== Registro: ==========");
+        System.out.println(card);
+        System.out.println(message);
+        System.out.println("===============================");
+
+    }
+
+    private void listPrinting(List<Card> cardList) {
+
+        System.out.println("======== Lista de Cards ========");
+        cardList.forEach(System.out::println);
+        System.out.println("===============================");
+
+    }
+
 }

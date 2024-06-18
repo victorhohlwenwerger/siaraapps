@@ -50,8 +50,8 @@ public class CardController {
     }
 
     //GET para consulta de card por ID
-    @GetMapping("/{id}")
-    public ResponseEntity<CardToReturnDTO> cardByID(@PathVariable Integer id) {
+    @GetMapping("/findByID")
+    public ResponseEntity<CardToReturnDTO> cardByID(@RequestParam Integer id) {
 
         //Recuperando card por ID
         Card card = cardService.findByID(id);
@@ -60,6 +60,20 @@ public class CardController {
         CardToReturnDTO cardToReturn = new CardToReturnDTO(card);
 
         return ResponseEntity.ok(cardToReturn);
+
+    }
+
+    //GET para consulta de card por nome
+    @GetMapping("/findByName")
+    public ResponseEntity<List<CardToReturnDTO>> cardByID(@RequestParam String name) {
+
+        //Recuperando card por ID
+        List<Card> cards = cardService.findByName(name);
+
+        //Covertendo entidade para DTO de retorno
+        List<CardToReturnDTO> cardsToReturn = cards.stream().map(CardToReturnDTO::new).toList();
+
+        return ResponseEntity.ok(cardsToReturn);
 
     }
 
