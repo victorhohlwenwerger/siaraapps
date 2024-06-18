@@ -1,6 +1,7 @@
 package br.com.siaraapps.mtgdb.models;
 
 import br.com.siaraapps.mtgdb.dtos.CardToInsertDTO;
+import br.com.siaraapps.mtgdb.dtos.CardToUpdateDTO;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -52,7 +53,8 @@ public class Card {
     public Card() {
     }
 
-    public Card(String name, String colors, Integer manaCost, String type, Character rarity, Integer power, Integer toughness, String printing, Boolean foil, Integer quantity, BigDecimal expectedValue) {
+    public Card(Integer id, String name, String colors, Integer manaCost, String type, Character rarity, Integer power, Integer toughness, String printing, Boolean foil, Integer quantity, BigDecimal expectedValue) {
+        this.id = id;
         this.name = name;
         this.colors = colors;
         this.manaCost = manaCost;
@@ -73,7 +75,11 @@ public class Card {
 
     //Construtor a partir de DTO de cadastro
     public Card(CardToInsertDTO card) {
-        this(card.name(), card.colors(), card.manaCost(), card.type(), card.rarity(), card.power(), card.toughness(), card.printing(), card.foil(), card.quantity(), card.expectedValue());
+        this(null, card.name(), card.colors(), card.manaCost(), card.type(), card.rarity(), card.power(), card.toughness(), card.printing(), card.foil(), card.quantity(), card.expectedValue());
+    }
+
+    public Card(CardToUpdateDTO card) {
+        this(card.id(), card.name(), card.colors(), card.manaCost(), card.type(), card.rarity(), card.power(), card.toughness(), card.printing(), card.foil(), card.quantity(), card.expectedValue());
     }
 
     public Integer getId() {

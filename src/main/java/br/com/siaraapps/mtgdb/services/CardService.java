@@ -53,6 +53,7 @@ public class CardService {
 
     }
 
+    //Método de consulta por nome
     public List<Card> findByName(String name) {
 
         //Busca cards por nome
@@ -64,6 +65,23 @@ public class CardService {
             return cards;
         } else {
             throw new EntityNotFoundException("Nenhum card encontrado contendo nome = " + name);
+        }
+
+    }
+
+    //Método de atualização de card por ID
+    public Card updateByID(Card cardToUpdate) {
+
+        //Busca card por ID
+        Optional<Card> findedCard = cardRepository.findById(cardToUpdate.getId());
+
+        //Retorna card atualizado se encontrado, senão, lança exceção
+        if (findedCard.isPresent()) {
+            Card cardUpdated = cardRepository.save(cardToUpdate);
+            cardPrinting(cardUpdated, "Atualizado com sucesso");
+            return cardUpdated;
+        } else {
+            throw new EntityNotFoundException("Nenhum card encontrado com id = " + cardToUpdate.getId());
         }
 
     }

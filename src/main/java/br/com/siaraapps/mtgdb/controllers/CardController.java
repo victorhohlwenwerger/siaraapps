@@ -1,6 +1,7 @@
 package br.com.siaraapps.mtgdb.controllers;
 
 import br.com.siaraapps.mtgdb.dtos.CardToReturnDTO;
+import br.com.siaraapps.mtgdb.dtos.CardToUpdateDTO;
 import br.com.siaraapps.mtgdb.models.Card;
 import br.com.siaraapps.mtgdb.dtos.CardToInsertDTO;
 import br.com.siaraapps.mtgdb.services.CardService;
@@ -77,6 +78,21 @@ public class CardController {
 
     }
 
+    //PUT para update de card por ID
+    @PutMapping("/updateByID")
+    public ResponseEntity<CardToReturnDTO> updateByID(@RequestBody CardToUpdateDTO inputCard) {
 
+        //Convertendo DTO de cadastro em entidade
+        Card cardToUpdate = new Card(inputCard);
+
+        //Atualiza card no repositório de dados
+        Card cardUpdated = cardService.updateByID(cardToUpdate);
+
+        //Covertendo entidade para DTO de retorno
+        CardToReturnDTO cardToReturn = new CardToReturnDTO(cardUpdated);
+
+        return ResponseEntity.ok(cardToReturn);
+
+    }
 
 }
