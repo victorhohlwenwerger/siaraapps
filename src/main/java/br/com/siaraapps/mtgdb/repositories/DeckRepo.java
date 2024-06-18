@@ -10,6 +10,6 @@ import java.util.List;
 @Repository
 public interface DeckRepo extends CrudRepository<Deck, Integer> {
 
-    List<Card> findByNameLike(String name);
+    List<Deck> findByNomeLike(String nome);
 
 }
