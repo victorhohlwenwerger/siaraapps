@@ -49,5 +49,20 @@ public class CardController {
 
     }
 
+    //GET para consulta de card por ID
+    @GetMapping("/{id}")
+    public ResponseEntity<CardToReturnDTO> cardByID(@PathVariable Integer id) {
+
+        //Recuperando card por ID
+        Card card = cardService.findByID(id);
+
+        //Covertendo entidade para DTO de retorno
+        CardToReturnDTO cardToReturn = new CardToReturnDTO(card);
+
+        return ResponseEntity.ok(cardToReturn);
+
+    }
+
+
 
 }
