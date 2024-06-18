@@ -44,6 +44,10 @@ public class Card {
     @Column(name = "expected_value", columnDefinition = "decimal(12,2)")
     private BigDecimal expectedValue;
 
+    @ManyToOne  // muitos-para-um com a entidade Deck
+    @JoinColumn(name = "deck_id")  //  "deck_id" para a relação muitos-para-um
+    private Deck deck;
+
     //Construtor vazio (dependencia do JPA)
     public Card() {
     }
@@ -164,6 +168,15 @@ public class Card {
         this.expectedValue = expectedValue;
     }
 
+    //Pegar DECK
+    public Deck getDeck() {
+        return deck;
+    }
+
+    //MUDAR DECK
+    public void setDeck(Deck deck) {
+        this.deck = deck;
+    }
     @Override
     public String toString() {
         return "Card{" +
