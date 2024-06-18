@@ -86,6 +86,21 @@ public class CardService {
 
     }
 
+    public void deleteByID(Integer id) {
+
+        //Busca card por ID
+        Optional<Card> findedCard = cardRepository.findById(id);
+
+        //Remove card se encontrado, senão, lança exceção
+        if (findedCard.isPresent()) {
+            cardRepository.deleteById(id);
+            cardPrinting(findedCard.get(), "Removido com sucesso");
+        } else {
+            throw new EntityNotFoundException("Nenhum card encontrado com id = " + id);
+        }
+
+    }
+
     private void cardPrinting(Card card, String message) {
 
         System.out.println("========== Registro: ==========");
