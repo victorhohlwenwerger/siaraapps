@@ -3,20 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <title>MTGDB API</title>
+    <!-- Link do CSS do Bootstrap -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Link para ícones do Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <!-- Estilos personalizados -->
+    <style>
+        /* TODO USAR IMAGEM */
+        body {
+            background-color: #1e1e1e;
+            color: #f5f5f5;
+            font-family: 'Cinzel', serif;
+        }
+        header, footer {
+            background-color: #333;
+            color: #ffd700;
+        }
+        footer {
+            margin-top: 20px;
+            padding: 10px 0;
+        }
+        .container {
+            background-color: rgba(0, 0, 0, 0.8);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .link-button {
+            color: #fff;
+            background-color: #444;
+            border: none;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        .link-button:hover {
+            background-color: #333;
+            transform: scale(1.05);
+        }
+    </style>
 </head>
 <body>
-    <h1>Bem-vindo à API MTGDB de Cards e Decks</h1>
+<header class="text-center py-3">
+    <h1><i class="fas fa-magic"></i> Bem-vindo à API MTGDB de Cards e Decks</h1>
+</header>
+<main class="container mt-5 p-4">
+    <div class="list-group">
+        <a class="btn link-button btn-lg btn-block mb-2" href="http://localhost:8080/card/all">Consultar todos os Cards</a>
+        <a class="btn link-button btn-lg btn-block mb-2" href="http://localhost:8080/card/findByID?id=1">Consultar um card por ID</a>
+        <a class="btn link-button btn-lg btn-block mb-2" href="http://localhost:8080/card/findByName?name=dragon">Consultar um card por nome</a>
+    </div>
+</main>
+<footer class="text-center">
+    <p>&copy; 2024 MTGDB API</p>
+</footer>
 
-    <p>
-        <a href="http://localhost:8080/card/all">Consultar todos os Cards</a>
-    </p>
-
-    <p>
-        <a href="http://localhost:8080/card/findByID?id=1">Consultar um card por ID</a>
-    </p>
-
-    <p>
-        <a href="http://localhost:8080/card/findByName?name=dragon">Consultar um card por nome</a>
-    </p>
+<!-- Scripts do Bootstrap (opcional, para funcionalidades JS do Bootstrap) -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </body>
 </html>
