@@ -1,5 +1,6 @@
 package br.com.siaraapps.mtgdb.models;
 
+import br.com.siaraapps.mtgdb.dtos.DeckToInsertDTO;
 import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.util.HashSet;
@@ -27,21 +28,38 @@ public class Deck {
     @Column(name = "valor", columnDefinition = "decimal(12,2)")  // Define uma coluna com o nome "valor" e tipo decimal no banco de dados
     private BigDecimal valor;
 
-    @OneToMany(mappedBy = "deck", cascade = CascadeType.ALL, orphanRemoval = true)  // Define a relação um-para-muitos com a entidade Card
+    @ManyToMany  // Define a relação muitos-para-muitos com a entidade Card
+    @JoinTable(joinColumns = @JoinColumn(name = "deck_id"), inverseJoinColumns = @JoinColumn(name = "card_id"))
     private Set<Card> cards = new HashSet<>();
 
     public Deck() {
     }
 
-    public Deck(String nome, String cores, String tipo, Integer quantidade, BigDecimal valor) {
+    public Deck(String nome, String cores, String tipo, Set<Card> cards) {
         this.nome = nome;
         this.cores = cores;
         this.tipo = tipo;
-        this.quantidade = quantidade;
-        this.valor = valor;
+        this.quantidade = cards.size();
+        this.valor = BigDecimal.ZERO; //todo: Atualizar valor do deck ao criar
+        this.cards = cards;
+    }
+
+    public Deck(DeckToInsertDTO deck) {
+
+        //Cria set de cards a partir de set de IDs
+        Set<Card> cards = new HashSet<>();
+        deck.setOfCardIDs().forEach(id -> { var c = new Card(); c.setId(id); cards.add(c); } );
+
+        this.nome = deck.nome();
+        this.cores = deck.cores();
+        this.tipo = deck.tipo();
+        this.quantidade = deck.setOfCardIDs().size();
+        this.valor = BigDecimal.ZERO; //todo: Atualizar valor do deck ao criar
+        this.cards = cards;
     }
 
     // Getters e Setters
+
 
     public Integer getId() {
         return id;
@@ -101,12 +119,12 @@ public class Deck {
 
     public void addCard(Card card) {
         cards.add(card);
-        card.setDeck(this);  // Define a relação bidirecional, associando o Card ao Deck
+        //todo: Atualizar valor do deck ao adicionar card
     }
 
     public void removeCard(Card card) {
         cards.remove(card);
-        card.setDeck(null);  // Remove a associação bidirecional, desassociando o Card do Deck
+        //todo: Atualizar valor do deck ao remover card
     }
 
     @Override
@@ -118,6 +136,8 @@ public class Deck {
                 ", tipo='" + tipo + '\'' +
                 ", quantidade=" + quantidade +
                 ", valor=" + valor +
+                ", cards=" + cards +
                 '}';
     }
+
 }

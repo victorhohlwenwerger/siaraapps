@@ -5,6 +5,7 @@ import br.com.siaraapps.mtgdb.dtos.CardToUpdateDTO;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Entity(name = "cards")
 public class Card {
@@ -45,9 +46,8 @@ public class Card {
     @Column(name = "expected_value", columnDefinition = "decimal(12,2)")
     private BigDecimal expectedValue;
 
-    @ManyToOne  // muitos-para-um com a entidade Deck
-    @JoinColumn(name = "deck_id")  //  "deck_id" para a relação muitos-para-um
-    private Deck deck;
+    @ManyToMany(mappedBy = "cards")  // muitos-para-um com a entidade Deck
+    private List<Deck> decks;
 
     //Construtor vazio (dependencia do JPA)
     public Card() {
@@ -84,6 +84,10 @@ public class Card {
 
     public Integer getId() {
         return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -174,15 +178,14 @@ public class Card {
         this.expectedValue = expectedValue;
     }
 
-    //Pegar DECK
-    public Deck getDeck() {
-        return deck;
+    public List<Deck> getDecks() {
+        return decks;
     }
 
-    //MUDAR DECK
-    public void setDeck(Deck deck) {
-        this.deck = deck;
+    public void setDecks(List<Deck> decks) {
+        this.decks = decks;
     }
+
     @Override
     public String toString() {
         return "Card{" +
@@ -200,4 +203,5 @@ public class Card {
                 ", expectedValue=" + expectedValue +
                 '}';
     }
+
 }

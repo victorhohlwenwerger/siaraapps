@@ -95,7 +95,7 @@ public class CardController {
 
     }
 
-    //PUT para update de card por ID
+    //DELETE para remoção de card por ID
     @DeleteMapping("/deleteByID")
     public ResponseEntity deleteByID(@RequestParam Integer id) {
 
